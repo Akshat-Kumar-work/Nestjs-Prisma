@@ -20,7 +20,34 @@ model Product{
   updatedAt DateTime @updatedAt
   price Float
   sale Boolean @default(false)
-  availablity Availability
+  availability Availability
+  description Description? 
+  review Review[]
+  tags Tag[]
+}
+
+//one to one
+model Description{
+  id Int @default(autoincrement()) @id
+  content String
+  product Product @relation(fields: [productId], references: [id])
+  productId Int @unique
+}
+
+//one to many
+model Review{
+  id Int @default(autoincrement()) @id
+  title String
+  content String
+  product Product @relation(fields: [productId], references: [id])
+  productId Int @unique
+}
+
+//many to many
+model Tag{
+  id Int @default(autoincrement()) @id
+  content String
+  products Product[]
 }
 
 enum Availability{
